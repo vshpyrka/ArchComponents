@@ -1,0 +1,10 @@
+<lint>
+    <!-- Phone app is not unbundled intentionally. -->
+    <issue id="GoogleAppIndexingWarning" severity="ignore"/>
+    <issue id="AllowBackup" severity="ignore"/>
+
+    <issue id="UnusedResources" severity="error">
+        <!-- Ignore what google services generates -->
+        <ignore path="**/google-services/**"/>
+    </issue>
+</lint>

@@ -1,0 +1,104 @@
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+apply plugin: 'project-report' // ./gradlew app:dependencies
+
+check.dependsOn 'checkstyle', 'pmd', 'findbugs'
+
+checkstyle {
+    toolVersion = '7.4'
+    configFile file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+    configProperties = ["suppressionFile": project(':').file('config/checkstyle/suppressions.xml')]
+}
+
+task checkstyle(type: Checkstyle) {
+    description 'Check code standard'
+    showViolations = true
+    ignoreFailures = false
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+    classpath = files()
+}
+
+task findbugs(type: FindBugs) {
+    description 'Find bugs mainly design flaws, bad practices, multithreaded correctness and code vulnerabilities.'
+    findbugs {
+        toolVersion = "3.0.1"
+    }
+    ignoreFailures = false
+    effort = "max"
+    reportLevel = "high"
+    excludeFilter = new File("${project.rootDir}/config/findbugs/findbugs-filter.xml")
+    classes = files("$project.buildDir/intermediates/classes/")
+    maxHeapSize = "512m"
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        html {
+            destination "$project.buildDir/reports/findbugs/findbugs.html"
+        }
+    }
+
+    classpath = files()
+}
+
+task pmd(type: Pmd) {
+    description 'Identifying potential problems mainly dead code, duplicated code, cyclomatic complexity and overcomplicated expressions'
+    ruleSetFiles = files("${project.rootDir}/config/pmd/pmd-ruleset.xml",
+                         "${project.rootDir}/config/pmd/pmd-ruleset2.xml"
+    )
+    ignoreFailures = false
+
+    ruleSets = [
+            'java-android',
+            'java-braces',
+            'java-clone',
+            'java-finalizers'
+    ]
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+android {
+    lintOptions {
+        // Detailed description of lint options can be found here:
+        // http://google.github.io/android-gradle-dsl/current/com.android.build.gradle.internal.dsl.LintOptions.html
+
+        // set to true to turn off analysis progress reporting by lint
+        quiet false
+        // if true, stop the gradle build if errors are found
+        abortOnError true
+        // if true, only report errors
+        ignoreWarnings false
+        // Returns whether lint should treat all warnings as errors
+        warningsAsErrors true
+        // Returns whether lint should check all warnings
+        checkAllWarnings true
+
+        lintConfig file("${project.rootDir}/config/lint/lint.xml")
+        // file to write report to
+        // xmlOutput file("$reportsDir/lint/" + project.getName() + "-lint-results.xml")
+        // path to report
+        // htmlOutput file("$reportsDir/lint/" + project.getName() + "-lint-results.html")
+    }
+
+    // Always show the result of every unit test, even if it passes.
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        }
+    }
+}

@@ -1,0 +1,142 @@
+<ruleset xmlns="http://pmd.sf.net/ruleset/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
+    xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+
+    <description>Custom ruleset for Android application</description>
+
+    <exclude-pattern>.*/R.java</exclude-pattern>
+    <exclude-pattern>.*/gen/.*</exclude-pattern>
+    <exclude-pattern>.*/org.bchat.domain.entities/.*</exclude-pattern>
+    <exclude-pattern>.*/org.bchat.data.network.entities/.*</exclude-pattern>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/android.html -->
+    <rule ref="rulesets/java/android.xml">
+        <!-- Doesn't work-->
+        <!--<exclude name="CallSuperFirst"/>-->
+        <!--<exclude name="CallSuperLast"/>-->
+    </rule>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/basic.html -->
+    <rule ref="rulesets/java/basic.xml"/>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/braces.html -->
+    <rule ref="rulesets/java/braces.xml"/>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/clone.html -->
+    <rule ref="rulesets/java/clone.xml"/>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/codesize.html -->
+    <rule ref="rulesets/java/codesize.xml"/>
+
+    <rule ref="rulesets/java/codesize.xml/TooManyMethods">
+        <properties>
+            <property name="maxmethods" value="10"/>
+        </properties>
+    </rule>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/comments.html -->
+    <!--<rule ref="rulesets/java/comments.xml"/>-->
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/controversial.html -->
+    <rule ref="rulesets/java/controversial.xml">
+        <exclude name="AtLeastOneConstructor"/>
+        <exclude name="NullAssignment"/>
+        <exclude name="AvoidFinalLocalVariable"/>
+        <exclude name="AvoidUsingVolatile"/>
+        <exclude name="AvoidUsingNativeCode"/>
+        <exclude name="DataflowAnomalyAnalysis"/>
+        <exclude name="UseConcurrentHashMap"/>
+        <!-- Disabled as there is rule in pmd-ruleset2.xml to allow @Inject fields with package access -->
+        <exclude name="DefaultPackage"/>
+    </rule>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/coupling.html -->
+    <rule ref="rulesets/java/coupling.xml">
+        <exclude name="LoosePackageCoupling"/>
+        <exclude name="LawOfDemeter"/>
+    </rule>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/design.html -->
+    <rule ref="rulesets/java/design.xml">
+        <!-- should be discussed AbstractClassWithoutAbstractMethod-->
+        <!--<exclude name="UnnecessaryLocalBeforeReturn"/>-->
+        <!--<exclude name="ReturnEmptyArrayRatherThanNull"/>-->
+        <exclude name="AccessorMethodGeneration"/>
+    </rule>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/empty.html -->
+    <rule ref="rulesets/java/empty.xml"/>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/finalizers.html -->
+    <rule ref="rulesets/java/finalizers.xml"/>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/imports.html -->
+    <rule ref="rulesets/java/imports.xml">
+        <!-- Espresso is designed this way !-->
+        <!--<exclude name="TooManyStaticImports"/>-->
+    </rule>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/j2ee.html -->
+    <rule ref="rulesets/java/j2ee.xml">
+        <exclude name="DoNotUseThreads"/>
+    </rule>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/javabeans.html -->
+    <rule ref="rulesets/java/javabeans.xml">
+        <exclude name="BeanMembersShouldSerialize"/>
+    </rule>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/junit.html -->
+    <rule ref="rulesets/java/junit.xml">
+        <!--<exclude name="JUnitTestsShouldIncludeAssert"/>-->
+    </rule>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/logging-java.html -->
+    <rule ref="rulesets/java/logging-java.xml">
+        <!--<exclude name="GuardLogStatementJavaUtil"/>-->
+    </rule>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/migrating.html -->
+    <rule ref="rulesets/java/migrating.xml"/>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/naming.html -->
+    <rule ref="rulesets/java/naming.xml">
+        <exclude name="ShortVariable"/>
+        <exclude name="LongVariable"/>
+        <exclude name="ShortMethodName"/>
+        <exclude name="AbstractNaming"/>
+        <exclude name="ShortClassName"/>
+    </rule>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/optimizations.html -->
+    <rule ref="rulesets/java/optimizations.xml">
+        <exclude name="AvoidInstantiatingObjectsInLoops"/>
+    </rule>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/strictexception.html -->
+    <rule ref="rulesets/java/strictexception.xml">
+        <exclude name="SignatureDeclareThrowsException"/>
+    </rule>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/strings.html -->
+    <rule ref="rulesets/java/strings.xml"/>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/sunsecure.html -->
+    <rule ref="rulesets/java/sunsecure.xml">
+        <!-- We have final fields-->
+        <!--<exclude name="ArrayIsStoredDirectly"/>-->
+    </rule>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/typeresolution.html -->
+    <rule ref="rulesets/java/typeresolution.xml">
+        <exclude name="SignatureDeclareThrowsException"/>
+    </rule>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/unnecessary.html -->
+    <rule ref="rulesets/java/unnecessary.xml"/>
+
+    <!-- See https://pmd.github.io/pmd-5.5.3/pmd-java/rules/java/unnecessary.html -->
+    <rule ref="rulesets/java/unusedcode.xml"/>
+
+</ruleset>
