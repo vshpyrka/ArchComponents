@@ -2,6 +2,9 @@ apply plugin: 'com.android.application'
 apply from: '../config/quality.gradle'
 
 android {
+    dataBinding {
+        enabled true
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.inveritasoft.archcomponents"

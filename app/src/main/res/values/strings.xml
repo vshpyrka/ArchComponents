@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ArchComponents</string>
+    <string name="data_recycler">Data Recycler</string>
 </resources>
