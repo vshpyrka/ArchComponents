@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.9.0.xsd">
+    <!-- Configure the database connection here -->
+    <jdbc>
+        <driver>org.postgresql.Driver</driver>
+        <url>jdbc:postgresql://localhost:5432/arch_components?useSSL=false</url>
+        <user>postgres</user>
+        <password></password>
+    </jdbc>
+
+    <generator>
+        <!-- The default code generator. You can override this one, to generate your own code style.
+             Supported generators:
+             - org.jooq.util.JavaGenerator
+             - org.jooq.util.ScalaGenerator
+             Defaults to org.jooq.util.JavaGenerator -->
+        <name>org.jooq.util.JavaGenerator</name>
+
+        <database>
+            <!-- The database type. The format here is:
+                 org.util.[database].[database]Database -->
+            <name>org.jooq.util.postgres.PostgresDatabase</name>
+
+            <!-- The database schema (or in the absence of schema support, in your RDBMS this
+                 can be the owner, user, database name) to be generated -->
+            <inputSchema>public</inputSchema>
+
+            <forcedTypes>
+                <forcedType>
+                    <name>BOOLEAN</name>
+                    <types>tinyint.*</types>
+                </forcedType>
+
+                <forcedType>
+                    <userType>com.fasterxml.jackson.databind.JsonNode</userType>
+                    <binding>comdb.jooq.JsonBinder</binding>
+                    <expression>.*json.*</expression>
+                    <types>.*</types>
+                </forcedType>
+            </forcedTypes>
+
+        </database>
+
+        <generate>
+            <javaTimeTypes>true</javaTimeTypes>
+        </generate>
+
+        <target>
+            <!-- The destination package of your generated classes (within the destination directory) -->
+            <packageName>db.jooq.arch</packageName>
+
+            <!-- The destination directory of your generated classes. Using Maven directory layout here -->
+            <directory>app</directory>
+        </target>
+
+        <strategy>
+            <name>db.jooq.JooqNamingStrategy</name>
+        </strategy>
+    </generator>
+</configuration>
