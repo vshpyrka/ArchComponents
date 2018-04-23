@@ -18,7 +18,7 @@ libraryDependencies ++= Seq(
   "org.jooq" % "jooq" % "3.10.6",
   "org.jooq" % "jooq-meta" % "3.10.6",
   "org.jooq" % "jooq-codegen" % "3.10.6",
-  "org.hibernate" % "hibernate-core" % "5.2.5.Final",
+  "org.hibernate" % "hibernate-core" % "5.2.5.Final"
 )
 
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )

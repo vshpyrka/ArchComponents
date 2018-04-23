@@ -44,6 +44,8 @@ public class ArchModule extends AbstractModule {
         return new AppServiceImpl(repository);
     }
 
+    @Provides
+    @Singleton
     public PushNotificationService providePushService(final WSClient wsClient, final Repository repository) {
         return new PushNotificationServiceImpl(wsClient, repository);
     }

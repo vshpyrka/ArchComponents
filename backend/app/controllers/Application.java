@@ -100,6 +100,8 @@ public class Application extends Controller {
         return ok(ResultStatus.getResultStatus(ResultStatus.STATUS_SUCCESS));
     }
 
+    @UserCheckAction.UserCheck()
+    @BodyParser.Of(BodyParser.Json.class)
     public Result updateBooks() {
         final SessionModel sessionModel = sessionService.getSessionModel(session());
         final JsonNode jsonNode = request().body().asJson();

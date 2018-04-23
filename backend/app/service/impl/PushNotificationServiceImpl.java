@@ -1,6 +1,7 @@
 package service.impl;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.typesafe.config.Config;
 import play.libs.Json;
 import play.libs.ws.WSClient;
 import play.libs.ws.WSRequest;
@@ -9,33 +10,37 @@ import service.PushNotificationService;
 
 public class PushNotificationServiceImpl implements PushNotificationService {
 
+    private static final String FCM_PUSH_SERVICE = "https://fcm.googleapis.com/fcm/send";
+
+    private final Config config;
     private final WSClient wsClient;
     private final Repository repository;
 
-    public PushNotificationServiceImpl(final WSClient wsClient, final Repository repository) {
+    public PushNotificationServiceImpl(final Config config,
+                                       final WSClient wsClient,
+                                       final Repository repository) {
+        this.config = config;
         this.wsClient = wsClient;
         this.repository = repository;
     }
 
     @Override
     public void notifyUser(final long userId) {
-        String pushToken = repository.getUserPushToken(userId);
+        final String pushToken = repository.getUserPushToken(userId);
         if (pushToken == null || pushToken.isEmpty()) {
             return;
         }
-        final WSRequest request = wsClient.url("https://fcm.googleapis.com/fcm/send")
-                .addHeader("Content-type", "application/json")
-                .addHeader("Authorization", "key=AIzaSyBSxxxxsXevRq0trDbA9mhnY_2jqMoeChA");
-        final ObjectNode message = Json.newObject();
-        message.put("to", "dBbB2BFT-VY:APA91bHrvgfXbZa-K5eg9vVdUkIsHbMxxxxxc8dBAvoH_3ZtaahVVeMXP7Bm0iera5s37ChHmAVh29P8aAVa8HF0I0goZKPYdGT6lNl4MXN0na7xbmvF25c4ZLl0JkCDm_saXb51Vrte");
-        message.put("priority", "high");
 
-        final ObjectNode notification = Json.newObject();
-        notification.put("title", "Java");
-        notification.put("body", "Notification");
+        final WSRequest request = wsClient.url(FCM_PUSH_SERVICE);
+        final String serverApiKey = config.getString("firebase.server_api_key");
+        request.addHeader("Authorization", String.format("key=%s", serverApiKey));
+        request.addHeader("Content-type", "application/json");
 
-        message.set("notification", notification);
+        final ObjectNode body = Json.newObject();
+        body.put("to", pushToken);
+        body.put("priority", "high");
 
-        request.post(message);
+        request.post(body.toString());
     }
+
 }

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "537289117424",
+    "firebase_url": "https://archcomponentsdemo-1b9ef.firebaseio.com",
+    "project_id": "archcomponentsdemo-1b9ef",
+    "storage_bucket": "archcomponentsdemo-1b9ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537289117424:android:484ea38cf8dab06e",
+        "android_client_info": {
+          "package_name": "com.inveritasoft.archcomponents"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "537289117424-uq81ukmu9ht4d9musktg7khhuqp19cak.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMGb8T3XU_eRFo3Wt5db76Dhd44LKZOQA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
