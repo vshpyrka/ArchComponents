@@ -27,6 +27,8 @@ ext {
     constraint_layout_version = "1.1.0"
     lifecycleVersion = "1.1.1"
     okhttp3Version = "3.9.1"
+    firebaseVersion = "15.0.0"
+    roomVersion = "1.0.0"
 
 }
 
@@ -48,8 +50,17 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:${okhttp3Version}"
     implementation "com.squareup.okhttp3:logging-interceptor:${okhttp3Version}"
 
+    // Firebase
+    implementation "com.google.firebase:firebase-messaging:${firebaseVersion}"
+    implementation "com.google.firebase:firebase-core:${firebaseVersion}"
+
+    // Room
+    annotationProcessor "android.arch.persistence.room:compiler:${roomVersion}"
+    implementation "android.arch.persistence.room:runtime:${roomVersion}"
+
     // Testing
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
+apply plugin: "com.google.gms.google-services"

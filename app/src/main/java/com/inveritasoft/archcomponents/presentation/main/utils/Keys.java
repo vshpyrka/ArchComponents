@@ -17,10 +17,12 @@ public @interface Keys {
      */
     String SHARED_PREFS_KEY = "User";
 
+    String PUSH_TOKEN = "Push_token";
+
     /**
      * Key to store and receive user Id from Api.
      */
-    String IS_LOGGED_IN = "IsLoggedIn";
+    String IS_LOGGED_IN = "Is_logged_in";
 
     /**
      * Key for Json.
