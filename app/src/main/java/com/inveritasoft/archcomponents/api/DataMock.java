@@ -6,7 +6,7 @@ import com.inveritasoft.archcomponents.api.model.Category;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DateMock {
+public class DataMock {
 
     public static List<Category> generateMockData() {
         List<Category> categories = new ArrayList<>();
@@ -14,7 +14,7 @@ public class DateMock {
             Category category = new Category();
             List<Book> books = new ArrayList<>();
             for (int bookIndex = 0; bookIndex < 7; bookIndex++) {
-                books.add(new Book("book " + bookIndex));
+                books.add(new Book("book" + bookIndex));
             }
             category.setBooks(books);
             categories.add(category);

@@ -25,6 +25,9 @@ android {
 ext {
     android_support_version = "27.1.1"
     constraint_layout_version = "1.1.0"
+    lifecycleVersion = "1.1.1"
+    okhttp3Version = "3.9.1"
+
 }
 
 dependencies {
@@ -34,6 +37,16 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:${android_support_version}"
     implementation "com.android.support:design:${android_support_version}"
     implementation "com.android.support.constraint:constraint-layout:${constraint_layout_version}"
+
+    // Architecture components
+    implementation "android.arch.lifecycle:viewmodel:${lifecycleVersion}"
+    implementation "android.arch.lifecycle:runtime:${lifecycleVersion}"
+    implementation "android.arch.lifecycle:extensions:${lifecycleVersion}"
+    annotationProcessor "android.arch.lifecycle:compiler:${lifecycleVersion}"
+
+    //OkHttp
+    implementation "com.squareup.okhttp3:okhttp:${okhttp3Version}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${okhttp3Version}"
 
     // Testing
     testImplementation 'junit:junit:4.12'

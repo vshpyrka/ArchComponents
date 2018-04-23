@@ -1,16 +1,18 @@
 package com.inveritasoft.archcomponents.presentation.main.adapter;
 
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.inveritasoft.archcomponents.R;
+import com.inveritasoft.archcomponents.presentation.main.utils.DiffUtilCallback;
 import com.inveritasoft.archcomponents.presentation.main.utils.DragAndDropHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BooksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements
@@ -96,7 +98,13 @@ public class BooksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public void setTouchHelper(ItemTouchHelper touchHelper) {
-
         this.touchHelper = touchHelper;
+    }
+
+    public void updateList(ArrayList<BaseView> newList) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtilCallback(this.booksList, newList));
+        booksList.clear();
+        booksList.addAll(newList);
+        diffResult.dispatchUpdatesTo(this);
     }
 }

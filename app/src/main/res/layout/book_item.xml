@@ -35,10 +35,12 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:ellipsize="end"
+            android:gravity="left"
             android:singleLine="true"
+            android:text="@{item.name}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageview_reorder"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Lorem Ipsum dolor set amet, Lorem odi gat haks barughy" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 </layout>
