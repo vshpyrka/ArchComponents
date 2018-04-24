@@ -16,6 +16,8 @@ import com.inveritasoft.archcomponents.db.entities.CategoryEntity;
 import com.inveritasoft.archcomponents.db.entities.CategoryWithBooks;
 import com.inveritasoft.archcomponents.presentation.main.utils.Keys;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 
@@ -82,9 +84,17 @@ public class ArchRepositoryImpl implements ArchRepository {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (response.code() == 200) {
+                if (response.isSuccessful()) {
                     isLoggedIn.postValue(true);
-                    sharedPreferences.edit().putBoolean(Keys.IS_LOGGED_IN, true).apply();
+                    String body = response.body().string();
+                    try {
+                        JSONObject jsonObject = new JSONObject(body);
+                        int userId = jsonObject.getInt("user_id");
+                        sharedPreferences.edit().putInt(Keys.USER_ID, userId).apply();
+                        sharedPreferences.edit().putBoolean(Keys.IS_LOGGED_IN, true).apply();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -92,7 +102,8 @@ public class ArchRepositoryImpl implements ArchRepository {
 
     @Override
     public void getBooksFromApi() {
-        apiGateway.getBooks(new Callback() {
+        int userId = sharedPreferences.getInt(Keys.USER_ID, -1);
+        apiGateway.getBooks(userId, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 

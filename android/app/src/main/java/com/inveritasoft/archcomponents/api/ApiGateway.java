@@ -9,5 +9,5 @@ public interface ApiGateway {
 
     void doLogin(String username, Callback callback);
 
-    void getBooks(Callback callback);
+    void getBooks(final int userId, Callback callback);
 }

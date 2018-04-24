@@ -112,9 +112,9 @@ public class ApiGatewayImpl implements ApiGateway {
     }
 
     @Override
-    public void getBooks(Callback callback) {
+    public void getBooks(final int userId, Callback callback) {
         final Request request = new Request.Builder()
-                .url(GET_BOOK_URL)
+                .url(GET_BOOK_URL + "/" + userId)
                 .get()
                 .build();
         makeCall(request, callback);

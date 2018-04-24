@@ -21,6 +21,8 @@ public @interface Keys {
 
     String COOKIE = "Cookie";
 
+    String USER_ID = "userId";
+
     /**
      * Key to store and receive user Id from Api.
      */
