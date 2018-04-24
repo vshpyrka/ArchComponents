@@ -17,7 +17,6 @@ public class DataFragmentViewModel extends ViewModel {
 
     private ArchRepository repository = App.getInstance().getRepository();
 
-    private List<BookModel> changedBooks;
 
     public DataFragmentViewModel() {
         repository.getBooksFromApi();
@@ -35,12 +34,8 @@ public class DataFragmentViewModel extends ViewModel {
 
         @Override
         public List<BookModel> apply(final List<BookEntity> input) {
-            List<BookModel> result = new ArrayList<>();
-            for (final BookEntity bookEntity : input) {
-                BookModel bookModel = new BookModel(bookEntity.getName(), bookEntity.getBookOrder());
-                result.add(bookModel);
-            }
-            return result;
+
+            return null;
         }
     }
 

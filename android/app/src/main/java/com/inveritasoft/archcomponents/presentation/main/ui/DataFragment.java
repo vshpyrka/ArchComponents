@@ -60,8 +60,7 @@ public class DataFragment extends Fragment {
     }
 
     private void subscribeForData() {
-        viewModel.getBooksForUi().observe(this, this::showResults);
-        adapter.getChangedData().observe(this, this::updateResults);
+
     }
 
     private void updateResults(final List<BookModel> books) {

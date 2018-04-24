@@ -13,7 +13,7 @@ import com.inveritasoft.archcomponents.repository.ArchRepository;
 public class AuthFragmentViewModel extends ViewModel {
 
     public final ArchRepository repository = App.getInstance().getRepository();
-    public final ObservableField<String> username = new ObservableField<>("");
+
 
     /**
      * Called when Button log in clicked.
