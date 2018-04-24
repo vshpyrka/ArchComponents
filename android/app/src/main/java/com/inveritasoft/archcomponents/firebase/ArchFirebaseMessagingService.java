@@ -10,7 +10,7 @@ import com.inveritasoft.archcomponents.repository.ArchRepository;
  */
 public class ArchFirebaseMessagingService extends FirebaseMessagingService {
 
-    ArchRepository repository = App.getInstance().getRepository();
+    private ArchRepository repository = App.getInstance().getRepository();
 
     @Override
     public void onCreate() {
@@ -20,9 +20,6 @@ public class ArchFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-
-
+        repository.getBooksFromApi();
     }
-
-
 }

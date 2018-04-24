@@ -14,10 +14,12 @@ import android.view.ViewGroup;
 
 import com.inveritasoft.archcomponents.R;
 import com.inveritasoft.archcomponents.databinding.DataFragmentBinding;
+import com.inveritasoft.archcomponents.presentation.main.adapter.BookModel;
 import com.inveritasoft.archcomponents.presentation.main.adapter.BooksAdapter;
 import com.inveritasoft.archcomponents.presentation.main.utils.DragAndDropHelper;
 import com.inveritasoft.archcomponents.presentation.main.viewmodel.DataFragmentViewModel;
 
+import java.util.List;
 
 public class DataFragment extends Fragment {
 
@@ -40,6 +42,7 @@ public class DataFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.data_fragment, container,
                 false);
         viewModel = ViewModelProviders.of(this).get(DataFragmentViewModel.class);
+        binding.setViewModel(viewModel);
         adapter = new BooksAdapter();
         DragAndDropHelper swipeAndDragHelper = new DragAndDropHelper(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(swipeAndDragHelper);
@@ -57,5 +60,19 @@ public class DataFragment extends Fragment {
     }
 
     private void subscribeForData() {
+        viewModel.getBooksForUi().observe(this, this::showResults);
+        adapter.getChangedData().observe(this, this::updateResults);
+    }
+
+    private void updateResults(final List<BookModel> books) {
+        viewModel.updateBooks(books);
+    }
+
+    private void showResults(final List<BookModel> bookModels) {
+        if (bookModels == null || bookModels.isEmpty()) {
+            adapter.setBooksList(bookModels);
+        } else {
+            adapter.updateList(bookModels);
+        }
     }
 }

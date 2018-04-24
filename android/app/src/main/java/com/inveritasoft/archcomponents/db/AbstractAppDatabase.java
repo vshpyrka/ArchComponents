@@ -8,21 +8,17 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 import com.inveritasoft.archcomponents.db.dao.BookDao;
-import com.inveritasoft.archcomponents.db.dao.CategoryDao;
 import com.inveritasoft.archcomponents.db.entities.BookEntity;
-import com.inveritasoft.archcomponents.db.entities.CategoryEntity;
 
 /**
  * Created by Oleksandr Kryvoruchko on 23.04.2018.
  */
-@Database(entities = {CategoryEntity.class, BookEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {BookEntity.class}, version = 1, exportSchema = false)
 public abstract class AbstractAppDatabase extends RoomDatabase {
 
     private static AbstractAppDatabase instance;
 
-    private static final String DATABASE_NAME = "bchat-db";
-
-    public abstract CategoryDao categoryDao();
+    private static final String DATABASE_NAME = "arch-components-db";
 
     public abstract BookDao bookDao();
 

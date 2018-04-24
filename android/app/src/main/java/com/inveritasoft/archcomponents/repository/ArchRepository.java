@@ -1,8 +1,10 @@
 package com.inveritasoft.archcomponents.repository;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 
-import com.inveritasoft.archcomponents.db.entities.CategoryWithBooks;
+import com.inveritasoft.archcomponents.db.entities.BookEntity;
+import com.inveritasoft.archcomponents.presentation.main.adapter.BookModel;
 
 import java.util.List;
 
@@ -15,7 +17,9 @@ public interface ArchRepository {
 
     void getBooksFromApi();
 
-    MediatorLiveData<List<CategoryWithBooks>> getCategoriesWithBooks();
+    LiveData<List<BookEntity>> getBooks();
 
     MediatorLiveData<Boolean> getIsLoggedIn();
+
+    void updateBooks(List<BookModel> books);
 }

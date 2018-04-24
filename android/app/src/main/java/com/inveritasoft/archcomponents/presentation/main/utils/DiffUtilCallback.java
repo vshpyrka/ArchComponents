@@ -3,7 +3,7 @@ package com.inveritasoft.archcomponents.presentation.main.utils;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 
-import com.inveritasoft.archcomponents.presentation.main.adapter.BaseView;
+import com.inveritasoft.archcomponents.presentation.main.adapter.BookModel;
 
 import java.util.List;
 
@@ -12,10 +12,10 @@ import java.util.List;
  */
 public class DiffUtilCallback extends DiffUtil.Callback {
 
-    List<BaseView> oldViewList;
-    List<BaseView> newViewList;
+    private List<BookModel> oldViewList;
+    private List<BookModel> newViewList;
 
-    public DiffUtilCallback(List<BaseView> oldViewList, List<BaseView> newViewList) {
+    public DiffUtilCallback(List<BookModel> oldViewList, List<BookModel> newViewList) {
         this.oldViewList = oldViewList;
         this.newViewList = newViewList;
     }

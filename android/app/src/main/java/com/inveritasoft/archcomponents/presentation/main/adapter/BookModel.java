@@ -1,18 +1,29 @@
 package com.inveritasoft.archcomponents.presentation.main.adapter;
 
-public class BookModel extends BaseView {
+public class BookModel {
 
-    public BookModel(String type, String name, int order, int categoryId) {
-        setOrder(order);
-        setType(type);
-        setName(name);
-        setCategoryId(categoryId);
+    private String name;
+    private int order;
+
+    public BookModel(String name, int order) {
+        this.name = name;
+        this.order = order;
     }
 
-    public BookModel(BaseView bookModel) {
-        setOrder(bookModel.getOrder());
-        setType(bookModel.getType());
-        setName(bookModel.getName());
-        setCategoryId(bookModel.getCategoryId());
+    public BookModel(BookModel bookModel) {
+        this.name = bookModel.getName();
+        this.order = bookModel.getOrder();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(final int order) {
+        this.order = order;
     }
 }

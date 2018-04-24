@@ -1,13 +1,10 @@
 package com.inveritasoft.archcomponents;
 
 import android.app.Application;
-import android.content.Context;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.inveritasoft.archcomponents.api.ApiGateway;
 import com.inveritasoft.archcomponents.api.ApiGatewayImpl;
 import com.inveritasoft.archcomponents.db.AbstractAppDatabase;
-import com.inveritasoft.archcomponents.presentation.main.utils.Keys;
 import com.inveritasoft.archcomponents.repository.ArchRepository;
 import com.inveritasoft.archcomponents.repository.ArchRepositoryImpl;
 
@@ -24,28 +21,34 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         App.setInstance(this);
-        savePushToken();
         appExecutors = new AppExecutors();
     }
 
-    private void savePushToken() {
-        String pushToken = FirebaseInstanceId.getInstance().getToken();
-        if (!(pushToken != null && pushToken.isEmpty())) {
-            getSharedPreferences(Keys.SHARED_PREFS_KEY, MODE_PRIVATE).edit().putString(Keys.PUSH_TOKEN, pushToken).apply();
-        }
+    /**
+     * Instance of Application.
+     *
+     * @return App.instance.
+     */
+    public static App getInstance() {
+        return instance;
     }
 
+    /**
+     * Provide application database instance.
+     *
+     * @return Database instance
+     */
     public AbstractAppDatabase getDatabase() {
         return AbstractAppDatabase.getInstance(this);
     }
 
+    /**
+     * Provide application repository instance.
+     *
+     * @return Repository instance
+     */
     public ArchRepository getRepository() {
         return ArchRepositoryImpl.getInstance(getDatabase(), appExecutors, getApiGateway());
-    }
-
-    @Override
-    public Context getApplicationContext() {
-        return super.getApplicationContext();
     }
 
     /**
@@ -58,14 +61,10 @@ public class App extends Application {
     }
 
     /**
-     * Instance of Application.
+     * Provide application API gateway instance.
      *
-     * @return App.instance.
+     * @return API gateway instance
      */
-    public static App getInstance() {
-        return instance;
-    }
-
     public ApiGateway getApiGateway() {
         return ApiGatewayImpl.getInstance();
     }

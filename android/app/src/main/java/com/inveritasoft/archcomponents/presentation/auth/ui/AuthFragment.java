@@ -40,7 +40,6 @@ public class AuthFragment extends Fragment {
         return new AuthFragment();
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container,
@@ -54,12 +53,9 @@ public class AuthFragment extends Fragment {
     }
 
     private void subscribeUI() {
-        viewModel.getIsLoggedIn().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean isLoggedIn) {
-                if (isLoggedIn != null && isLoggedIn) {
-                    startHomeActivity();
-                }
+        viewModel.getIsLoggedIn().observe(this, isLoggedIn -> {
+            if (isLoggedIn != null && isLoggedIn) {
+                startHomeActivity();
             }
         });
     }
