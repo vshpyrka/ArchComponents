@@ -8,4 +8,6 @@ import okhttp3.Callback;
 public interface ApiGateway {
 
     void doLogin(String username, Callback callback);
+
+    void getBooks(Callback callback);
 }

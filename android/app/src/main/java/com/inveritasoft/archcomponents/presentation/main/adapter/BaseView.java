@@ -8,6 +8,8 @@ public class BaseView {
 
     private int order;
 
+    private int categoryId;
+
     public String getName() {
         return name;
     }
@@ -30,5 +32,13 @@ public class BaseView {
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 }

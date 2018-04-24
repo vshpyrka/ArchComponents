@@ -19,6 +19,8 @@ public @interface Keys {
 
     String PUSH_TOKEN = "Push_token";
 
+    String COOKIE = "Cookie";
+
     /**
      * Key to store and receive user Id from Api.
      */

@@ -57,6 +57,5 @@ public class DataFragment extends Fragment {
     }
 
     private void subscribeForData() {
-        adapter.setBooksList(viewModel.getBooks());
     }
 }

@@ -1,15 +1,22 @@
-package com.inveritasoft.archcomponents.presentation;
+package com.inveritasoft.archcomponents;
 
 import android.app.Application;
 import android.content.Context;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.inveritasoft.archcomponents.api.ApiGateway;
+import com.inveritasoft.archcomponents.api.ApiGatewayImpl;
+import com.inveritasoft.archcomponents.db.AbstractAppDatabase;
 import com.inveritasoft.archcomponents.presentation.main.utils.Keys;
+import com.inveritasoft.archcomponents.repository.ArchRepository;
+import com.inveritasoft.archcomponents.repository.ArchRepositoryImpl;
 
 /**
  * Created by Oleksandr Kryvoruchko on 23.04.2018.
  */
 public class App extends Application {
+
+    private AppExecutors appExecutors;
 
     private static volatile App instance;
 
@@ -18,6 +25,7 @@ public class App extends Application {
         super.onCreate();
         App.setInstance(this);
         savePushToken();
+        appExecutors = new AppExecutors();
     }
 
     private void savePushToken() {
@@ -25,6 +33,14 @@ public class App extends Application {
         if (!(pushToken != null && pushToken.isEmpty())) {
             getSharedPreferences(Keys.SHARED_PREFS_KEY, MODE_PRIVATE).edit().putString(Keys.PUSH_TOKEN, pushToken).apply();
         }
+    }
+
+    public AbstractAppDatabase getDatabase() {
+        return AbstractAppDatabase.getInstance(this);
+    }
+
+    public ArchRepository getRepository() {
+        return ArchRepositoryImpl.getInstance(getDatabase(), appExecutors, getApiGateway());
     }
 
     @Override
@@ -48,5 +64,9 @@ public class App extends Application {
      */
     public static App getInstance() {
         return instance;
+    }
+
+    public ApiGateway getApiGateway() {
+        return ApiGatewayImpl.getInstance();
     }
 }

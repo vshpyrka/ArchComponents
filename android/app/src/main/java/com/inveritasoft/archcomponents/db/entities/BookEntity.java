@@ -10,16 +10,17 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
 /**
  * Created by Oleksandr Kryvoruchko on 23.04.2018.
  */
-@Entity (foreignKeys = @ForeignKey(entity = CategoryEntity.class,
-        parentColumns = "categoryId",
-        childColumns = "categoryId",
-        onDelete = CASCADE))
+@Entity(tableName = "tblBooks",
+        foreignKeys = @ForeignKey(entity = CategoryEntity.class,
+                parentColumns = "categoryId",
+                childColumns = "categoryId",
+                onDelete = CASCADE))
 public class BookEntity {
 
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    private int id;
     private String name;
-    private Integer order;
+    private Integer bookOrder;
     private Integer categoryId;
 
     public BookEntity() {
@@ -29,15 +30,15 @@ public class BookEntity {
     public BookEntity(String name, Integer order, Integer categoryId) {
         super();
         this.name = name;
-        this.order = order;
+        this.bookOrder = order;
         this.categoryId = categoryId;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -49,12 +50,12 @@ public class BookEntity {
         this.name = name;
     }
 
-    public Integer getOrder() {
-        return order;
+    public Integer getBookOrder() {
+        return bookOrder;
     }
 
-    public void setOrder(Integer order) {
-        this.order = order;
+    public void setBookOrder(Integer bookOrder) {
+        this.bookOrder = bookOrder;
     }
 
     public Integer getCategoryId() {

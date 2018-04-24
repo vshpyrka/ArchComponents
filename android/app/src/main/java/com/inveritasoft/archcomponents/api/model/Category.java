@@ -4,16 +4,18 @@ import java.util.List;
 
 public class Category {
 
-    private String name;
+    private List<Book> books = null;
+    private Integer categoryId;
+    private String categoryName;
 
-    private List<Book> books;
-
-    public String getName() {
-        return name;
+    public Category() {
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Category(List<Book> books, Integer categoryId, String categoryName) {
+        super();
+        this.books = books;
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
     }
 
     public List<Book> getBooks() {
@@ -22,5 +24,21 @@ public class Category {
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }

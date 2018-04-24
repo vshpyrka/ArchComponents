@@ -1,7 +1,6 @@
 package com.inveritasoft.archcomponents.presentation.main.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,29 +8,39 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.inveritasoft.archcomponents.App;
 import com.inveritasoft.archcomponents.R;
 import com.inveritasoft.archcomponents.presentation.auth.ui.AuthActivity;
-import com.inveritasoft.archcomponents.presentation.main.utils.Keys;
+import com.inveritasoft.archcomponents.repository.ArchRepository;
 
 /**
  * Application launcher activity.
  */
 public class MainActivity extends AppCompatActivity {
 
-    private SharedPreferences sharedPreferences;
+    ArchRepository archRepository;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DataBindingUtil.setContentView(this, R.layout.activity_main);
-        initSharedPrefs();
-        showDataFragment();
+        archRepository = App.getInstance().getRepository();
+        checkIfIsLoggedIn();
+    }
+
+    private void checkIfIsLoggedIn() {
+        if (archRepository.getIsLoggedIn().getValue() != null && archRepository.getIsLoggedIn().getValue()) {
+            showDataFragment();
+        } else {
+            showLoginScreen();
+        }
     }
 
     private void showLoginScreen() {
         final Intent intent = new Intent(this, AuthActivity.class);
         startActivity(intent);
+        finish();
     }
 
 
@@ -43,9 +52,5 @@ public class MainActivity extends AppCompatActivity {
             fragment = DataFragment.newInstance();
             fragmentTransaction.add(R.id.main_container, fragment, DataFragment.TAG).commit();
         }
-    }
-
-    private void initSharedPrefs() {
-        sharedPreferences = getSharedPreferences(Keys.SHARED_PREFS_KEY, MODE_PRIVATE);
     }
 }

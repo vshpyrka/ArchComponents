@@ -1,40 +1,28 @@
 package com.inveritasoft.archcomponents.presentation.auth.viewmodel;
 
+import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.databinding.ObservableField;
 
-import com.inveritasoft.archcomponents.api.ApiGateway;
-import com.inveritasoft.archcomponents.api.ApiGatewayImpl;
-
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+import com.inveritasoft.archcomponents.App;
+import com.inveritasoft.archcomponents.repository.ArchRepository;
 
 /**
  * Created by Oleksandr Kryvoruchko on 23.04.2018.
  */
 public class AuthFragmentViewModel extends ViewModel {
 
-    ApiGateway apiGateway = ApiGatewayImpl.getInstance();
+    public final ArchRepository repository = App.getInstance().getRepository();
     public final ObservableField<String> username = new ObservableField<>("");
-
 
     /**
      * Called when Button log in clicked.
      */
     public void onLoginButtonClick() {
-        apiGateway.doLogin(username.get(), new Callback() {
-            @Override
-            public void onFailure(final Call call, IOException e) {
+        repository.doApiLogin(username.get());
+    }
 
-            }
-
-            @Override
-            public void onResponse(final Call call, Response response) throws IOException {
-
-            }
-        });
+    public MediatorLiveData<Boolean> getIsLoggedIn() {
+        return repository.getIsLoggedIn();
     }
 }
