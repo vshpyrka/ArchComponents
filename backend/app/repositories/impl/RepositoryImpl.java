@@ -7,6 +7,7 @@ import db.jooq.arch.tables.records.ArchBooksRecord;
 import db.jooq.arch.tables.records.ArchCategoriesRecord;
 import db.models.BookResultRecord;
 import models.Book;
+import models.BookResult;
 import models.Category;
 import org.jooq.DSLContext;
 import repositories.Repository;
@@ -83,5 +84,12 @@ public class RepositoryImpl implements Repository {
         ArchCategoriesRecord record = dslContext.newRecord(ArchCategories.ARCH_CATEGORIES);
         record.setName(category.name);
         record.store();
+    }
+
+    @Override
+    public void deleteCategoryBooks(final long userId, final long categoryId) {
+        dslContext.deleteFrom(ArchBooks.ARCH_BOOKS)
+                .where(ArchBooks.ARCH_BOOKS.USER_ID.eq((int) userId)
+                        .and(ArchBooks.ARCH_BOOKS.CATEGORY_ID.eq((int) categoryId)));
     }
 }

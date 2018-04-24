@@ -3,6 +3,7 @@ package modules;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.typesafe.config.Config;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
@@ -46,7 +47,9 @@ public class ArchModule extends AbstractModule {
 
     @Provides
     @Singleton
-    public PushNotificationService providePushService(final WSClient wsClient, final Repository repository) {
-        return new PushNotificationServiceImpl(wsClient, repository);
+    public PushNotificationService providePushService(final Config config,
+                                                      final WSClient wsClient,
+                                                      final Repository repository) {
+        return new PushNotificationServiceImpl(config, wsClient, repository);
     }
 }

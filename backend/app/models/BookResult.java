@@ -18,13 +18,13 @@ public class BookResult {
     private List<Category> categories = null;
 
     @JsonProperty("categories")
-    public List<Category> getCategory() {
+    public List<Category> getCategories() {
         return categories;
     }
 
     @JsonProperty("categories")
-    public void setCategory(List<Category> category) {
-        this.categories = category;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     public void addCategory(Category category) {
@@ -47,7 +47,7 @@ public class BookResult {
     }
 
     @Nullable
-    public Category getCategory(final long categoryId) {
+    public Category getCategories(final long categoryId) {
         if (categories == null) {
             return null;
         }

@@ -48,7 +48,7 @@ public class AppServiceImpl implements AppService {
                 category.setCategoryName(bookResultRecord.categoryName);
                 bookResult.addCategory(category);
             } else {
-                category = bookResult.getCategory(categoryId);
+                category = bookResult.getCategories(categoryId);
             }
             BookResult.Book book = new BookResult.Book();
             book.setCategoryId(categoryId);
@@ -81,6 +81,17 @@ public class AppServiceImpl implements AppService {
 
     @Override
     public void updateBooks(final long userId, final BookResult bookResult) {
-
+        final List<BookResult.Category> categories = bookResult.getCategories();
+        categories.forEach(category -> {
+            int categoryId = (int) category.getCategoryId().longValue();
+            repository.deleteCategoryBooks(userId, categoryId);
+            category.getBooks().forEach(newBook -> {
+                Book book = new Book();
+                book.categoryId = categoryId;
+                book.name = newBook.getName();
+                book.order = newBook.getOrder();
+                addBook(userId, book);
+            });
+        });
     }
 }

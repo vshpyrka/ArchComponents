@@ -3,6 +3,7 @@ package repositories;
 import db.jooq.arch.tables.records.ArchCategoriesRecord;
 import db.models.BookResultRecord;
 import models.Book;
+import models.BookResult;
 import models.Category;
 
 import java.util.List;
@@ -24,4 +25,7 @@ public interface Repository {
     List<ArchCategoriesRecord> getCategories(long userId);
 
     void addCategory(long userId, Category category);
+
+    void deleteCategoryBooks(long userId, long categoryId);
+
 }
