@@ -5,7 +5,6 @@ package db.jooq.arch;
 
 
 import db.jooq.arch.tables.ArchBooks;
-import db.jooq.arch.tables.ArchCategories;
 import db.jooq.arch.tables.ArchUsers;
 import db.jooq.arch.tables.PlayEvolutions;
 
@@ -34,7 +33,6 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     public static final Index ARCH_BOOKS_PKEY = Indexes0.ARCH_BOOKS_PKEY;
-    public static final Index ARCH_CATEGORIES_PKEY = Indexes0.ARCH_CATEGORIES_PKEY;
     public static final Index ARCH_USERS_PKEY = Indexes0.ARCH_USERS_PKEY;
     public static final Index PLAY_EVOLUTIONS_PKEY = Indexes0.PLAY_EVOLUTIONS_PKEY;
 
@@ -44,7 +42,6 @@ public class Indexes {
 
     private static class Indexes0 {
         public static Index ARCH_BOOKS_PKEY = Internal.createIndex("arch_books_pkey", ArchBooks.ARCH_BOOKS, new OrderField[] { ArchBooks.ARCH_BOOKS.ID }, true);
-        public static Index ARCH_CATEGORIES_PKEY = Internal.createIndex("arch_categories_pkey", ArchCategories.ARCH_CATEGORIES, new OrderField[] { ArchCategories.ARCH_CATEGORIES.ID }, true);
         public static Index ARCH_USERS_PKEY = Internal.createIndex("arch_users_pkey", ArchUsers.ARCH_USERS, new OrderField[] { ArchUsers.ARCH_USERS.ID }, true);
         public static Index PLAY_EVOLUTIONS_PKEY = Internal.createIndex("play_evolutions_pkey", PlayEvolutions.PLAY_EVOLUTIONS, new OrderField[] { PlayEvolutions.PLAY_EVOLUTIONS.ID }, true);
     }

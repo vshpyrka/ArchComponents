@@ -7,8 +7,4 @@ GET         /books               controllers.Application.getBooks
 
 POST        /book/add            controllers.Application.addBook
 
-POST        /category/add        controllers.Application.addCategory
-
-GET         /categories          controllers.Application.getCategories
-
 PUT         /books               controllers.Application.updateBooks

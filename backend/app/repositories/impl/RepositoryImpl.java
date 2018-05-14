@@ -1,14 +1,10 @@
 package repositories.impl;
 
 import db.jooq.arch.tables.ArchBooks;
-import db.jooq.arch.tables.ArchCategories;
 import db.jooq.arch.tables.ArchUsers;
 import db.jooq.arch.tables.records.ArchBooksRecord;
-import db.jooq.arch.tables.records.ArchCategoriesRecord;
-import db.models.BookResultRecord;
+import db.jooq.arch.tables.records.ArchUsersRecord;
 import models.Book;
-import models.BookResult;
-import models.Category;
 import org.jooq.DSLContext;
 import repositories.Repository;
 
@@ -46,6 +42,20 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
+    public ArchUsersRecord getUserByName(final String name) {
+        return dslContext.selectFrom(ArchUsers.ARCH_USERS)
+                .where(ArchUsers.ARCH_USERS.NAME.eq(name))
+                .fetchOne();
+    }
+
+    @Override
+    public void updatePushToken(final String name, final String pushToken) {
+        dslContext.update(ArchUsers.ARCH_USERS)
+                .set(ArchUsers.ARCH_USERS.PUSH_TOKEN, pushToken)
+                .where(ArchUsers.ARCH_USERS.NAME.eq(name)).execute();
+    }
+
+    @Override
     public String getUserPushToken(final long userId) {
         return dslContext.select(ArchUsers.ARCH_USERS.PUSH_TOKEN)
                 .from(ArchUsers.ARCH_USERS)
@@ -53,15 +63,10 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public List<BookResultRecord> getBooks(final long userId) {
-        return dslContext.select(
-                ArchCategories.ARCH_CATEGORIES.ID.as(BookResultRecord.ALIAS_CATEGORY_ID),
-                ArchCategories.ARCH_CATEGORIES.NAME.as(BookResultRecord.ALIAS_CATEGORY_NAME),
-                ArchBooks.ARCH_BOOKS.NAME.as(BookResultRecord.ALIAS_BOOK_NAME),
-                ArchBooks.ARCH_BOOKS.BOOK_ORDER.as(BookResultRecord.ALIAS_BOOK_ORDER))
-                .from(ArchCategories.ARCH_CATEGORIES)
-                .innerJoin(ArchBooks.ARCH_BOOKS).on(ArchBooks.ARCH_BOOKS.CATEGORY_ID.eq(ArchCategories.ARCH_CATEGORIES.ID))
-                .fetchInto(BookResultRecord.class);
+    public List<ArchBooksRecord> getBooks(final long userId) {
+        return dslContext.selectFrom(ArchBooks.ARCH_BOOKS)
+                .where(ArchBooks.ARCH_BOOKS.USER_ID.eq((int) userId))
+                .fetch();
     }
 
     @Override
@@ -69,27 +74,19 @@ public class RepositoryImpl implements Repository {
         ArchBooksRecord record = dslContext.newRecord(ArchBooks.ARCH_BOOKS);
         record.setName(book.name);
         record.setBookOrder(book.order);
-        record.setCategoryId((int) book.categoryId);
+        record.setUserId((int) userId);
         record.store();
     }
 
     @Override
-    public List<ArchCategoriesRecord> getCategories(final long userId) {
-        return dslContext.selectFrom(ArchCategories.ARCH_CATEGORIES)
-                .where(ArchCategories.ARCH_CATEGORIES.USER_ID.eq((int) userId)).fetch();
-    }
-
-    @Override
-    public void addCategory(final long userId, final Category category) {
-        ArchCategoriesRecord record = dslContext.newRecord(ArchCategories.ARCH_CATEGORIES);
-        record.setName(category.name);
-        record.store();
-    }
-
-    @Override
-    public void deleteCategoryBooks(final long userId, final long categoryId) {
+    public void deleteUserBooks(final long userId, final long categoryId) {
         dslContext.deleteFrom(ArchBooks.ARCH_BOOKS)
-                .where(ArchBooks.ARCH_BOOKS.USER_ID.eq((int) userId)
-                        .and(ArchBooks.ARCH_BOOKS.CATEGORY_ID.eq((int) categoryId)));
+                .where(ArchBooks.ARCH_BOOKS.USER_ID.eq((int) userId));
+    }
+
+    @Override
+    public void deleteUserBooks(final long userId) {
+        dslContext.deleteFrom(ArchBooks.ARCH_BOOKS)
+                .where(ArchBooks.ARCH_BOOKS.USER_ID.eq((int) userId)).execute();
     }
 }

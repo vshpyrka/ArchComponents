@@ -31,28 +31,28 @@ public class DataFragment extends Fragment {
 
     private BooksAdapter adapter;
 
-    public static DataFragment newInstance() {
-        return new DataFragment();
-    }
-
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater,
+                             @Nullable final ViewGroup container,
+                             @Nullable final Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = DataBindingUtil.inflate(inflater, R.layout.data_fragment, container,
                 false);
         viewModel = ViewModelProviders.of(this).get(DataFragmentViewModel.class);
         binding.setViewModel(viewModel);
+
         adapter = new BooksAdapter();
         DragAndDropHelper swipeAndDragHelper = new DragAndDropHelper(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(swipeAndDragHelper);
         adapter.setTouchHelper(touchHelper);
         initRecyclerView(touchHelper);
+
         subscribeForData();
         return binding.getRoot();
     }
 
-    private void initRecyclerView(ItemTouchHelper touchHelper) {
+    private void initRecyclerView(final ItemTouchHelper touchHelper) {
         binding.dataRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
         binding.dataRecycler.setAdapter(adapter);

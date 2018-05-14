@@ -39,7 +39,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ArchBooks extends TableImpl<ArchBooksRecord> {
 
-    private static final long serialVersionUID = 224519460;
+    private static final long serialVersionUID = 599264279;
 
     /**
      * The reference instance of <code>public.arch_books</code>
@@ -63,11 +63,6 @@ public class ArchBooks extends TableImpl<ArchBooksRecord> {
      * The column <code>public.arch_books.name</code>.
      */
     public final TableField<ArchBooksRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
-
-    /**
-     * The column <code>public.arch_books.category_id</code>.
-     */
-    public final TableField<ArchBooksRecord, Integer> CATEGORY_ID = createField("category_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.arch_books.book_order</code>.

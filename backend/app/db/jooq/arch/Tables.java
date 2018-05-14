@@ -5,7 +5,6 @@ package db.jooq.arch;
 
 
 import db.jooq.arch.tables.ArchBooks;
-import db.jooq.arch.tables.ArchCategories;
 import db.jooq.arch.tables.ArchUsers;
 import db.jooq.arch.tables.PlayEvolutions;
 
@@ -29,11 +28,6 @@ public class Tables {
      * The table <code>public.arch_books</code>.
      */
     public static final ArchBooks ARCH_BOOKS = db.jooq.arch.tables.ArchBooks.ARCH_BOOKS;
-
-    /**
-     * The table <code>public.arch_categories</code>.
-     */
-    public static final ArchCategories ARCH_CATEGORIES = db.jooq.arch.tables.ArchCategories.ARCH_CATEGORIES;
 
     /**
      * The table <code>public.arch_users</code>.

@@ -11,7 +11,8 @@ import com.inveritasoft.archcomponents.R;
 /**
  * Created by Oleksandr Kryvoruchko on 23.04.2018.
  */
-public class AuthActivity extends AppCompatActivity{
+public class AuthActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,10 +23,9 @@ public class AuthActivity extends AppCompatActivity{
 
     private void showFragment() {
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        AuthFragment authFragment = (AuthFragment) fragmentManager
-                .findFragmentByTag(AuthFragment.TAG);
+        AuthFragment authFragment = (AuthFragment) fragmentManager.findFragmentByTag(AuthFragment.TAG);
         if (authFragment == null) {
-            authFragment = AuthFragment.newInstance();
+            authFragment = new AuthFragment();
             final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.add(R.id.auth_container, authFragment, AuthFragment.TAG)
                     .commit();

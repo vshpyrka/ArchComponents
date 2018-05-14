@@ -21,7 +21,7 @@ public class ArchFirebaseIDService extends FirebaseInstanceIdService {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate");
-        sharedPreferences = App.getInstance().getApplicationContext().getSharedPreferences(Keys.SHARED_PREFS_KEY, MODE_PRIVATE);
+        sharedPreferences = App.getInstance().getSharedPrefs();
     }
 
     @Override

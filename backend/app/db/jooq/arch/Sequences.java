@@ -29,11 +29,6 @@ public class Sequences {
     public static final Sequence<Long> ARCH_BOOKS_ID_SEQ = new SequenceImpl<Long>("arch_books_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
 
     /**
-     * The sequence <code>public.arch_categories_id_seq</code>
-     */
-    public static final Sequence<Long> ARCH_CATEGORIES_ID_SEQ = new SequenceImpl<Long>("arch_categories_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
-
-    /**
      * The sequence <code>public.arch_users_id_seq</code>
      */
     public static final Sequence<Long> ARCH_USERS_ID_SEQ = new SequenceImpl<Long>("arch_users_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));

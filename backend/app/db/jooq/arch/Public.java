@@ -5,7 +5,6 @@ package db.jooq.arch;
 
 
 import db.jooq.arch.tables.ArchBooks;
-import db.jooq.arch.tables.ArchCategories;
 import db.jooq.arch.tables.ArchUsers;
 import db.jooq.arch.tables.PlayEvolutions;
 
@@ -34,7 +33,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = -660808283;
+    private static final long serialVersionUID = 1183680256;
 
     /**
      * The reference instance of <code>public</code>
@@ -45,11 +44,6 @@ public class Public extends SchemaImpl {
      * The table <code>public.arch_books</code>.
      */
     public final ArchBooks ARCH_BOOKS = db.jooq.arch.tables.ArchBooks.ARCH_BOOKS;
-
-    /**
-     * The table <code>public.arch_categories</code>.
-     */
-    public final ArchCategories ARCH_CATEGORIES = db.jooq.arch.tables.ArchCategories.ARCH_CATEGORIES;
 
     /**
      * The table <code>public.arch_users</code>.
@@ -87,7 +81,6 @@ public class Public extends SchemaImpl {
     private final List<Sequence<?>> getSequences0() {
         return Arrays.<Sequence<?>>asList(
             Sequences.ARCH_BOOKS_ID_SEQ,
-            Sequences.ARCH_CATEGORIES_ID_SEQ,
             Sequences.ARCH_USERS_ID_SEQ);
     }
 
@@ -101,7 +94,6 @@ public class Public extends SchemaImpl {
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
             ArchBooks.ARCH_BOOKS,
-            ArchCategories.ARCH_CATEGORIES,
             ArchUsers.ARCH_USERS,
             PlayEvolutions.PLAY_EVOLUTIONS);
     }

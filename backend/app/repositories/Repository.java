@@ -1,10 +1,9 @@
 package repositories;
 
+import db.jooq.arch.tables.records.ArchBooksRecord;
 import db.jooq.arch.tables.records.ArchCategoriesRecord;
-import db.models.BookResultRecord;
+import db.jooq.arch.tables.records.ArchUsersRecord;
 import models.Book;
-import models.BookResult;
-import models.Category;
 
 import java.util.List;
 
@@ -16,16 +15,17 @@ public interface Repository {
 
     boolean isUserExists(String userName);
 
+    void updatePushToken(final String name, String pushToken);
+
     String getUserPushToken(long userId);
 
-    List<BookResultRecord> getBooks(long userId);
+    List<ArchBooksRecord> getBooks(long userId);
 
     void addBook(long userId, Book book);
 
-    List<ArchCategoriesRecord> getCategories(long userId);
+    void deleteUserBooks(long userId, long categoryId);
 
-    void addCategory(long userId, Category category);
+    void deleteUserBooks(long userId);
 
-    void deleteCategoryBooks(long userId, long categoryId);
-
+    ArchUsersRecord getUserByName(String name);
 }

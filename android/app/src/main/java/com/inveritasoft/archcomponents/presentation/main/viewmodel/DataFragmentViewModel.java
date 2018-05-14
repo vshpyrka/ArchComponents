@@ -15,12 +15,12 @@ import java.util.List;
 
 public class DataFragmentViewModel extends ViewModel {
 
-    private ArchRepository repository = App.getInstance().getRepository();
+    private final ArchRepository repository;
 
     private List<BookModel> changedBooks;
 
     public DataFragmentViewModel() {
-        repository.getBooksFromApi();
+        repository = App.getInstance().getRepository();
     }
 
     public LiveData<List<BookModel>> getBooksForUi() {
@@ -35,9 +35,9 @@ public class DataFragmentViewModel extends ViewModel {
 
         @Override
         public List<BookModel> apply(final List<BookEntity> input) {
-            List<BookModel> result = new ArrayList<>();
+            final List<BookModel> result = new ArrayList<>();
             for (final BookEntity bookEntity : input) {
-                BookModel bookModel = new BookModel(bookEntity.getName(), bookEntity.getBookOrder());
+                final BookModel bookModel = new BookModel(bookEntity.getName(), bookEntity.getBookOrder());
                 result.add(bookModel);
             }
             return result;

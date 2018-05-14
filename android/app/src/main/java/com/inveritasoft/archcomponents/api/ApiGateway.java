@@ -11,9 +11,9 @@ import okhttp3.Callback;
  */
 public interface ApiGateway {
 
-    void doLogin(String username, Callback callback);
+    void login(String username, Callback callback);
 
-    void getBooks(final int userId, Callback callback);
+    void getBooks(Callback callback);
 
-    void updateBooks(final int userId, List<BookModel> books, Callback callback);
+    void updateBooks(List<BookModel> books, Callback callback);
 }

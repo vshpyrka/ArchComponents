@@ -8,6 +8,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.With;
 import service.AppService;
+import session.SessionService;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -33,9 +34,12 @@ public class UserCheckAction {
         @Inject
         AppService appService;
 
+        @Inject
+        SessionService sessionService;
+
         @Override
         public CompletionStage<Result> call(final Http.Context ctx) {
-            final long userId = (long) ctx.args.get("userId");
+            final long userId = sessionService.getSessionModel(ctx.session()).userId;
             logger.debug("Attempt to login with userId " + userId);
             if (appService.isUserExists(userId)) {
                 return delegate.call(ctx);

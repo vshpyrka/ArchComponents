@@ -1,27 +1,43 @@
 package com.inveritasoft.archcomponents;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.inveritasoft.archcomponents.api.ApiGateway;
 import com.inveritasoft.archcomponents.api.ApiGatewayImpl;
 import com.inveritasoft.archcomponents.db.AbstractAppDatabase;
+import com.inveritasoft.archcomponents.presentation.main.utils.Keys;
 import com.inveritasoft.archcomponents.repository.ArchRepository;
-import com.inveritasoft.archcomponents.repository.ArchRepositoryImpl;
+import com.inveritasoft.archcomponents.repository.impl.ArchRepositoryImpl;
 
 /**
  * Created by Oleksandr Kryvoruchko on 23.04.2018.
  */
 public class App extends Application {
 
-    private AppExecutors appExecutors;
-
     private static volatile App instance;
+
+    private AppExecutors appExecutors;
+    private AbstractAppDatabase database;
+    private SharedPreferences sharedPreferences;
+    private ApiGatewayImpl apiGateway;
+    private ArchRepositoryImpl archRepository;
 
     @Override
     public void onCreate() {
         super.onCreate();
         App.setInstance(this);
         appExecutors = new AppExecutors();
+    }
+
+    /**
+     * Set static application instance.
+     *
+     * @param instance Application instance
+     */
+    public static void setInstance(final App instance) {
+        App.instance = instance;
     }
 
     /**
@@ -39,25 +55,23 @@ public class App extends Application {
      * @return Database instance
      */
     public AbstractAppDatabase getDatabase() {
-        return AbstractAppDatabase.getInstance(this);
+        if (database == null) {
+            database = AbstractAppDatabase.getInstance(this);
+        }
+        return database;
     }
 
     /**
-     * Provide application repository instance.
+     * Provide application shared preferences.
      *
-     * @return Repository instance
+     * @return Instance of app shared prefs.
      */
-    public ArchRepository getRepository() {
-        return ArchRepositoryImpl.getInstance(getDatabase(), appExecutors, getApiGateway());
-    }
-
-    /**
-     * Set static application instance.
-     *
-     * @param instance Application instance
-     */
-    public static void setInstance(final App instance) {
-        App.instance = instance;
+    public SharedPreferences getSharedPrefs() {
+        if (sharedPreferences == null) {
+            sharedPreferences = App.getInstance().getApplicationContext().getSharedPreferences(Keys.SHARED_PREFS_KEY,
+                    Context.MODE_PRIVATE);
+        }
+        return sharedPreferences;
     }
 
     /**
@@ -66,6 +80,21 @@ public class App extends Application {
      * @return API gateway instance
      */
     public ApiGateway getApiGateway() {
-        return ApiGatewayImpl.getInstance();
+        if (apiGateway == null) {
+            apiGateway = new ApiGatewayImpl(getSharedPrefs());
+        }
+        return apiGateway;
+    }
+
+    /**
+     * Provide application repository instance.
+     *
+     * @return Repository instance
+     */
+    public ArchRepository getRepository() {
+        if (archRepository == null) {
+            archRepository = new ArchRepositoryImpl(getDatabase(), appExecutors, getApiGateway(), getSharedPrefs());
+        }
+        return archRepository;
     }
 }

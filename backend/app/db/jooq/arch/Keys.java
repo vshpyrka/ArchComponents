@@ -5,11 +5,9 @@ package db.jooq.arch;
 
 
 import db.jooq.arch.tables.ArchBooks;
-import db.jooq.arch.tables.ArchCategories;
 import db.jooq.arch.tables.ArchUsers;
 import db.jooq.arch.tables.PlayEvolutions;
 import db.jooq.arch.tables.records.ArchBooksRecord;
-import db.jooq.arch.tables.records.ArchCategoriesRecord;
 import db.jooq.arch.tables.records.ArchUsersRecord;
 import db.jooq.arch.tables.records.PlayEvolutionsRecord;
 
@@ -39,7 +37,6 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final Identity<ArchBooksRecord, Integer> IDENTITY_ARCH_BOOKS = Identities0.IDENTITY_ARCH_BOOKS;
-    public static final Identity<ArchCategoriesRecord, Integer> IDENTITY_ARCH_CATEGORIES = Identities0.IDENTITY_ARCH_CATEGORIES;
     public static final Identity<ArchUsersRecord, Integer> IDENTITY_ARCH_USERS = Identities0.IDENTITY_ARCH_USERS;
 
     // -------------------------------------------------------------------------
@@ -47,7 +44,6 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<ArchBooksRecord> ARCH_BOOKS_PKEY = UniqueKeys0.ARCH_BOOKS_PKEY;
-    public static final UniqueKey<ArchCategoriesRecord> ARCH_CATEGORIES_PKEY = UniqueKeys0.ARCH_CATEGORIES_PKEY;
     public static final UniqueKey<ArchUsersRecord> ARCH_USERS_PKEY = UniqueKeys0.ARCH_USERS_PKEY;
     public static final UniqueKey<PlayEvolutionsRecord> PLAY_EVOLUTIONS_PKEY = UniqueKeys0.PLAY_EVOLUTIONS_PKEY;
 
@@ -62,13 +58,11 @@ public class Keys {
 
     private static class Identities0 {
         public static Identity<ArchBooksRecord, Integer> IDENTITY_ARCH_BOOKS = Internal.createIdentity(ArchBooks.ARCH_BOOKS, ArchBooks.ARCH_BOOKS.ID);
-        public static Identity<ArchCategoriesRecord, Integer> IDENTITY_ARCH_CATEGORIES = Internal.createIdentity(ArchCategories.ARCH_CATEGORIES, ArchCategories.ARCH_CATEGORIES.ID);
         public static Identity<ArchUsersRecord, Integer> IDENTITY_ARCH_USERS = Internal.createIdentity(ArchUsers.ARCH_USERS, ArchUsers.ARCH_USERS.ID);
     }
 
     private static class UniqueKeys0 {
         public static final UniqueKey<ArchBooksRecord> ARCH_BOOKS_PKEY = Internal.createUniqueKey(ArchBooks.ARCH_BOOKS, "arch_books_pkey", ArchBooks.ARCH_BOOKS.ID);
-        public static final UniqueKey<ArchCategoriesRecord> ARCH_CATEGORIES_PKEY = Internal.createUniqueKey(ArchCategories.ARCH_CATEGORIES, "arch_categories_pkey", ArchCategories.ARCH_CATEGORIES.ID);
         public static final UniqueKey<ArchUsersRecord> ARCH_USERS_PKEY = Internal.createUniqueKey(ArchUsers.ARCH_USERS, "arch_users_pkey", ArchUsers.ARCH_USERS.ID);
         public static final UniqueKey<PlayEvolutionsRecord> PLAY_EVOLUTIONS_PKEY = Internal.createUniqueKey(PlayEvolutions.PLAY_EVOLUTIONS, "play_evolutions_pkey", PlayEvolutions.PLAY_EVOLUTIONS.ID);
     }

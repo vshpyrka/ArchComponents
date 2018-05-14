@@ -1,10 +1,10 @@
 package com.inveritasoft.archcomponents.api;
 
-import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.inveritasoft.archcomponents.App;
+import com.inveritasoft.archcomponents.BuildConfig;
 import com.inveritasoft.archcomponents.presentation.main.adapter.BookModel;
 import com.inveritasoft.archcomponents.presentation.main.utils.Keys;
 
@@ -30,7 +30,7 @@ public class ApiGatewayImpl implements ApiGateway {
 
     private static final String TAG = "ApiGatewayImpl";
 
-    public static final String API_URL = "http://192.168.88.188:9000";
+    private static final String API_URL = BuildConfig.API_URL;
 
     private static final String SIGNUP_URL = API_URL + "/signup";
 
@@ -38,31 +38,26 @@ public class ApiGatewayImpl implements ApiGateway {
 
     private static final String UPDATE_BOOKS_URL = API_URL + "/books";
 
-    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    private static ApiGatewayImpl instance;
+    private static final String HEADER_COOKIE = "Cookie";
+
+    private static final String HEADER_SET_COOKIE = "Set-Cookie";
 
     private OkHttpClient okHttpClient;
 
     private SharedPreferences sharedPreferences;
 
-    public static ApiGatewayImpl getInstance() {
-        if (instance == null) {
-            instance = new ApiGatewayImpl();
-        }
-        return instance;
-    }
-
-    public ApiGatewayImpl() {
+    public ApiGatewayImpl(final SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
         initClient();
-        sharedPreferences = App.getInstance().getApplicationContext().getSharedPreferences(Keys.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
     }
 
     private void initClient() {
         okHttpClient = new OkHttpClient().newBuilder()
                 .addInterceptor(new Interceptor() {
                     @Override
-                    public Response intercept(Chain chain) throws IOException {
+                    public Response intercept(@NonNull final Chain chain) throws IOException {
                         final Request original = chain.request();
                         final Request authorized = original.newBuilder()
                                 .addHeader("Content-type", "application/json")
@@ -72,11 +67,12 @@ public class ApiGatewayImpl implements ApiGateway {
                 })
                 .addInterceptor(new Interceptor() {
                     @Override
-                    public Response intercept(Chain chain) throws IOException {
+                    public Response intercept(@NonNull final Chain chain) throws IOException {
                         final Request original = chain.request();
                         if (sharedPreferences.contains(Keys.COOKIE)) {
+                            final String cookies = sharedPreferences.getString(Keys.COOKIE, null);
                             final Request withCookies = original.newBuilder()
-                                    .addHeader("Cookies", sharedPreferences.getString(Keys.COOKIE, null))
+                                    .addHeader(HEADER_COOKIE, cookies)
                                     .build();
                             return chain.proceed(withCookies);
                         }
@@ -85,11 +81,11 @@ public class ApiGatewayImpl implements ApiGateway {
                 })
                 .addInterceptor(new Interceptor() {
                     @Override
-                    public Response intercept(Chain chain) throws IOException {
+                    public Response intercept(@NonNull final Chain chain) throws IOException {
                         final Request original = chain.request();
-                        Response response = chain.proceed(original);
+                        final Response response = chain.proceed(original);
                         if (original.url().toString().equals(SIGNUP_URL)) {
-                            sharedPreferences.edit().putString(Keys.COOKIE, response.headers().get("Set-Cookie")).apply();
+                            sharedPreferences.edit().putString(Keys.COOKIE, response.headers().get(HEADER_SET_COOKIE)).apply();
                         }
                         return response;
                     }
@@ -98,42 +94,41 @@ public class ApiGatewayImpl implements ApiGateway {
     }
 
     @Override
-    public void doLogin(String userName, Callback callback) {
+    public void login(final String userName, final Callback callback) {
         if (sharedPreferences.contains(Keys.PUSH_TOKEN)) {
-            JSONObject jsonObject = new JSONObject();
             try {
+                final JSONObject jsonObject = new JSONObject();
                 jsonObject.put("name", userName);
                 jsonObject.put("push_token", sharedPreferences.getString(Keys.PUSH_TOKEN, null));
-                RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+                final RequestBody body = RequestBody.create(JSON, jsonObject.toString());
                 final Request request = new Request.Builder()
                         .url(SIGNUP_URL)
                         .post(body)
                         .build();
                 makeCall(request, callback);
-            } catch (JSONException e) {
+            } catch (final JSONException e) {
                 e.printStackTrace();
             }
         } else {
-            Log.d(TAG, "doLogin: no Token");
+            Log.d(TAG, "login: no Token");
         }
     }
 
     @Override
-    public void getBooks(final int userId, Callback callback) {
+    public void getBooks(final Callback callback) {
         final Request request = new Request.Builder()
-                .url(GET_BOOK_URL + "/" + userId)
+                .url(GET_BOOK_URL)
                 .get()
                 .build();
         makeCall(request, callback);
     }
 
     @Override
-    public void updateBooks(final int userId, final List<BookModel> books, final Callback callback) {
+    public void updateBooks(final List<BookModel> books, final Callback callback) {
         try {
-            RequestBody body = RequestBody.create(JSON, prepareBookResponse(books));
+            final RequestBody body = RequestBody.create(JSON, prepareBookResponse(books));
             final Request request = new Request.Builder()
-                    .url(UPDATE_BOOKS_URL + "/" + userId)
-                    .addHeader("Content-type", "application/json")
+                    .url(UPDATE_BOOKS_URL)
                     .put(body).build();
             makeCall(request, callback);
         } catch (JSONException e) {
@@ -142,10 +137,10 @@ public class ApiGatewayImpl implements ApiGateway {
     }
 
     private String prepareBookResponse(final List<BookModel> books) throws JSONException {
-        JSONObject jsonObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
+        final JSONObject jsonObject = new JSONObject();
+        final JSONArray jsonArray = new JSONArray();
         for (final BookModel book : books) {
-            JSONObject json = new JSONObject();
+            final JSONObject json = new JSONObject();
             json.put("name", book.getName());
             json.put("order", book.getOrder());
             jsonArray.put(json);
@@ -154,7 +149,7 @@ public class ApiGatewayImpl implements ApiGateway {
         return jsonObject.toString();
     }
 
-    private void makeCall(Request request, Callback callback) {
+    private void makeCall(final Request request, final Callback callback) {
         okHttpClient.newCall(request).enqueue(callback);
     }
 }

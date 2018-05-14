@@ -18,6 +18,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            buildConfigField("String", "API_URL", "\"http://192.168.88.12:9000\"")
+        }
+        debug {
+            buildConfigField("String", "API_URL", "\"http://192.168.88.12:9000\"")
         }
     }
     compileOptions {
@@ -31,8 +36,8 @@ ext {
     constraint_layout_version = "1.1.0"
     lifecycleVersion = "1.1.1"
     okhttp3Version = "3.9.1"
-    firebaseVersion = "15.0.0"
-    roomVersion = "1.0.0"
+    firebaseVersion = "15.0.2"
+    roomVersion = "1.1.0"
     modelMapperVersion = "1.1.1"
     gsonVersion = "2.8.2"
 }
@@ -59,7 +64,6 @@ dependencies {
 
     // Firebase
     implementation "com.google.firebase:firebase-messaging:${firebaseVersion}"
-    implementation "com.google.firebase:firebase-core:${firebaseVersion}"
 
     // Room
     annotationProcessor "android.arch.persistence.room:compiler:${roomVersion}"
@@ -70,7 +74,8 @@ dependencies {
 
     // Testing
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
-apply plugin: "com.google.gms.google-services"
+
+apply plugin: 'com.google.gms.google-services'

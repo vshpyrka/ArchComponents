@@ -1,6 +1,5 @@
 package com.inveritasoft.archcomponents.presentation.auth.ui;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -11,11 +10,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.inveritasoft.archcomponents.R;
 import com.inveritasoft.archcomponents.databinding.AuthFragmentBinding;
 import com.inveritasoft.archcomponents.presentation.auth.viewmodel.AuthFragmentViewModel;
 import com.inveritasoft.archcomponents.presentation.main.ui.MainActivity;
+import com.inveritasoft.archcomponents.presentation.main.utils.Status;
 
 /**
  * Created by Oleksandr Kryvoruchko on 23.04.2018.
@@ -31,15 +32,6 @@ public class AuthFragment extends Fragment {
 
     private AuthFragmentBinding binding;
 
-    /**
-     * Stub method which provides new fragment instance.
-     *
-     * @return New fragment instance
-     */
-    public static AuthFragment newInstance() {
-        return new AuthFragment();
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container,
@@ -53,20 +45,28 @@ public class AuthFragment extends Fragment {
     }
 
     private void subscribeUI() {
-        viewModel.getIsLoggedIn().observe(this, isLoggedIn -> {
-            if (isLoggedIn != null && isLoggedIn) {
-                startHomeActivity();
+        viewModel.getLoginLiveData().observe(this, loginState -> {
+            if (loginState != null) {
+                if (loginState.status == Status.LOADING) {
+                    showProgress(true);
+                } else if (loginState.status == Status.SUCCESS) {
+                    showProgress(false);
+                    showHomeActivity();
+                } else {
+                    showProgress(false);
+                    Toast.makeText(getContext(), "Failed to log in", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
-    private void startHomeActivity() {
-        startActivity(new Intent(getActivity(), MainActivity.class));
-        getActivity().finish();
-    }
-
     private void showProgress(final boolean show) {
         binding.progressBar.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    private void showHomeActivity() {
+        startActivity(new Intent(getActivity(), MainActivity.class));
+        getActivity().finish();
     }
 
 }
